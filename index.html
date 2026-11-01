@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حالة معاذ</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #141414;
+    --card-2: #1a1a1a;
+    --text: #f1ece0;
+    --muted: #9a917c;
+    --gold: #d4af37;
+    --gold-light: #f0d77a;
+    --gold-dark: #a8851f;
+    --border: #2b2618;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* ===== زر اللغة ===== */
+  .lang-btn {
+    position: absolute;
+    top: 16px;
+    inset-inline-end: 16px;
+    z-index: 5;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .lang-btn:hover { background: var(--gold); color: #000; }
+
+  /* ===== العنوان الكبير ===== */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 84px 20px 70px;
+    background:
+      radial-gradient(ellipse at top, rgba(212,175,55,.16), transparent 65%),
+      var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 9vw, 3.8rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero .line {
+    width: 70px; height: 2px;
+    margin: 16px auto 14px;
+    background: var(--gold);
+  }
+  .hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 16px 40px;
+  }
+
+  /* ===== الأقسام ===== */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--gold);
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .sub-title {
+    margin: 24px 0 10px;
+    font-size: .92rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ===== عنصر التقرير ===== */
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    background: var(--card-2);
+  }
+  .item.featured {
+    border-color: var(--gold-dark);
+    background: linear-gradient(135deg, rgba(212,175,55,.10), rgba(212,175,55,.02));
+  }
+  .item h3 { margin: 0; font-size: 1.02rem; font-weight: 400; }
+
+  .btn {
+    flex-shrink: 0;
+    display: inline-block;
+    text-decoration: none;
+    color: #0a0a0a;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: .93rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(212,175,55,.3); }
+  .btn:active { transform: translateY(0); }
+  .btn-wide { display: block; text-align: center; width: 100%; padding: 14px; font-size: 1rem; }
+
+  .lab-note { margin: 0 0 14px; color: var(--muted); font-size: .92rem; }
+
+  footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 8px 16px 28px; }
+
+  @media (max-width: 480px) {
+    .item { flex-direction: column; align-items: stretch; text-align: center; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <button class="lang-btn" id="langBtn" type="button">EN</button>
+  <h1 data-i18n="heroTitle">حالة معاذ</h1>
+  <div class="line"></div>
+  <p data-i18n="heroSub">متابعة الحالة والتقارير في مكان واحد</p>
+</header>
+
+<main>
+
+  <section class="section" id="reports">
+    <h2 class="section-title"><span class="dot"></span><span data-i18n="latestTitle">تقرير الحالة الحديث</span></h2>
+    <div id="latest"></div>
+
+    <div id="oldBlock" hidden>
+      <h3 class="sub-title" data-i18n="oldTitle">التقارير السابقة</h3>
+      <div id="old"></div>
+    </div>
+  </section>
+
+  <section class="section" id="labs">
+    <h2 class="section-title"><span class="dot"></span><span data-i18n="labTitle">ملف التحاليل</span></h2>
+    <p class="lab-note" data-i18n="labNote">كل التحاليل في ملف واحد على Google Drive.</p>
+    <a class="btn btn-wide" id="labBtn" target="_blank" rel="noopener" data-i18n="labBtn">فتح ملف التحاليل</a>
+  </section>
+
+</main>
+
+<footer>moaz.patient.io</footer>
+
+<script>
+/* ============================================================
+   هنا تعدّل الروابط فقط (الصق رابط المشاركة من Google Drive كما هو).
+
+   1) التقارير: رتّبها من الأحدث إلى الأقدم.
+      أول تقرير = "تقرير الحالة الحديث"، والباقي تحت "التقارير السابقة".
+      لإضافة تقرير جديد: انسخ سطرًا وضعه في أول القائمة.
+      ar = العنوان بالعربي ، en = العنوان بالإنجليزي.
+   2) ملف التحاليل: ضع رابطه في LAB_LINK.
+   ============================================================ */
+
+const REPORTS = [
+  { ar: "تقرير شهر 10/2026", en: "Report – October 2026",
+    link: "https://docs.google.com/document/d/16KjNM53kJpnqav5X0zMKZAgmM9lt3tpeqo3eymftRo0/edit?usp=drivesdk",  /* الرابط العربي */
+    linkEn: "https://docs.google.com/document/d/1Gnz5zWItC9S_wX3fK5KIPIaLF5k6YVQ2tF5_fXLexLw/edit?usp=drivesdk"  /* ضع هنا رابط النسخة الإنجليزية. لو تُرك فارغًا يُستخدم الرابط العربي */
+  }
+  // مثال لتقرير أقدم (احذف علامتي // لتفعيله):
+  // { ar: "تقرير شهر 9/2026", en: "Report – September 2026", link: "الصق_الرابط_هنا" },
+];
+
+const LAB_LINK = "https://drive.google.com/drive/folders/14ugkFom5Yz23jWHFH2Wcg7IXAYPRZDUM";
+const LAB_LINK_EN = "";  /* (اختياري) رابط ملف التحاليل للنسخة الإنجليزية. لو فارغ يُستخدم الرابط أعلاه */
+
+/* ---------- النصوص بالّلغتين ---------- */
+const TEXT = {
+  ar: {
+    pageTitle: "حالة معاذ",
+    heroTitle: "حالة معاذ",
+    heroSub: "متابعة الحالة والتقارير في مكان واحد",
+    latestTitle: "تقرير الحالة الحديث",
+    oldTitle: "التقارير السابقة",
+    openReport: "فتح التقرير",
+    labTitle: "ملف التحاليل",
+    labNote: "كل التحاليل في ملف واحد على Google Drive.",
+    labBtn: "فتح ملف التحاليل",
+    switchTo: "EN"
+  },
+  en: {
+    pageTitle: "Moaz's Condition",
+    heroTitle: "Moaz's Condition",
+    heroSub: "Status and reports in one place",
+    latestTitle: "Latest Status Report",
+    oldTitle: "Previous Reports",
+    openReport: "Open Report",
+    labTitle: "Lab Results File",
+    labNote: "All lab results in a single file on Google Drive.",
+    labBtn: "Open Lab Results File",
+    switchTo: "عربي"
+  }
+};
+
+/* ---------- روابط Drive ---------- */
+/* الرابط يُستخدم كما هو (مستند، مجلد، أو ملف). فقط روابط الملفات العادية تُحوَّل لصيغة العرض. */
+function toOpenUrl(link) {
+  const m = link.match(/^https:\/\/drive\.google\.com\/file\/d\/([\w-]+)/);
+  return m ? "https://drive.google.com/file/d/" + m[1] + "/view" : link;
+}
+
+/* ---------- بناء التقارير ---------- */
+function makeItem(report, featured, lang) {
+  const div = document.createElement("div");
+  div.className = "item" + (featured ? " featured" : "");
+  div.innerHTML = "<h3></h3><a class=\"btn\" target=\"_blank\" rel=\"noopener\"></a>";
+  div.querySelector("h3").textContent = report[lang];
+  const a = div.querySelector("a");
+  a.href = toOpenUrl((lang === "en" && report.linkEn) || report.link);
+  a.textContent = TEXT[lang].openReport;
+  return div;
+}
+
+function renderReports(lang) {
+  const latest = document.getElementById("latest");
+  const old = document.getElementById("old");
+  latest.innerHTML = "";
+  old.innerHTML = "";
+  if (REPORTS.length) {
+    latest.appendChild(makeItem(REPORTS[0], true, lang));
+    REPORTS.slice(1).forEach(r => old.appendChild(makeItem(r, false, lang)));
+  }
+  document.getElementById("oldBlock").hidden = REPORTS.length < 2;
+}
+
+/* ---------- تبديل اللغة ---------- */
+function setLang(lang) {
+  const t = TEXT[lang];
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+  document.title = t.pageTitle;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t[el.dataset.i18n];
+  });
+  document.getElementById("langBtn").textContent = t.switchTo;
+  document.getElementById("labBtn").href = toOpenUrl((lang === "en" && LAB_LINK_EN) || LAB_LINK);
+  renderReports(lang);
+  try { localStorage.setItem("lang", lang); } catch (e) {}
+}
+
+document.getElementById("langBtn").addEventListener("click", () => {
+  setLang(document.documentElement.lang === "ar" ? "en" : "ar");
+});
+
+let start = "ar";
+try { start = localStorage.getItem("lang") || "ar"; } catch (e) {}
+setLang(start === "en" ? "en" : "ar");
+</script>
+</body>
+</html>
